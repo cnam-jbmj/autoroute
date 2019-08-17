@@ -2,10 +2,6 @@ package app;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this template, choose Tools | Templates
@@ -22,6 +18,7 @@ public class Voiture extends Thread {
     private int km_max;
     private CountDownLatch barriere;
     private Controleur controleur;
+    private String immat;
 
     public Voiture(int num, int v, Gare gare, Observateur obs, int min, int max, CountDownLatch b, Controleur ctrl) {
         super();
@@ -33,9 +30,28 @@ public class Voiture extends Thread {
         km_max = max;
         barriere = b;
         controleur = ctrl;
+        this.immat = generateImmat();
     }
 
-    @Override
+    private String generateImmat() {
+    	StringBuilder str = new StringBuilder();
+    	Random rnd = new Random();
+    	for(int i=0; i<2; i++) {
+    		char c = (char)(rnd.nextInt(26) + 'A');
+    		str.append(c);
+    	}
+    	str.append('-');
+    	str.append(111 + rnd.nextInt(888));
+    	str.append('-');
+    	for(int i=0; i<2; i++) {
+    		char c = (char)(rnd.nextInt(26) + 'A');
+    		str.append(c);
+    	}
+    	
+    	return str.toString();
+	}
+
+	@Override
     public void run() {
         try {
             barriere.countDown();//décrémenter le verrou  
@@ -51,6 +67,7 @@ public class Voiture extends Thread {
     private void entrer() {
         Random r = new Random();
         parcours = km_min + r.nextInt(km_max - km_min);//générer aléatoirement la longueur du parcours de cette voiture
+        System.out.println("Voiture " + immat + " : entre");
 
     }
 
