@@ -1,16 +1,17 @@
 package vue;
 
+import java.awt.Dialog;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
+import app.FormAutoroute;
 import controler.InitControler;
 
-public class InitWindow extends JPanel {
+public class InitWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -23,42 +24,63 @@ public class InitWindow extends JPanel {
 	private JButton fermer;
 	private JButton simuler;
 	
+	private InitControler controler;
+	
 	public InitWindow() {
-		JFrame frame = new JFrame();
-		frame.setTitle("Initialisation simulation");
-		frame.setLayout(new GridLayout(6,2));
-		frame.setSize(600, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.controler = new InitControler(this);
 		
-		InitControler controler = new InitControler(this);
+		this.setTitle("Initialisation simulation");
+		this.setLayout(new GridLayout(6,2));
+		this.setSize(600, 300);
+		this.setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
-		frame.add(new JLabel("Nombre de voitures"));
+		this.add(new JLabel("Nombre de voitures"));
 		this.nbVoiture = new JSpinner();
-		frame.add(this.nbVoiture);
+		this.add(this.nbVoiture);
 		
-		frame.add(new JLabel("Nombre de caisses"));
+		this.add(new JLabel("Nombre de caisses"));
 		this.nbCaisse = new JSpinner();
-		frame.add(this.nbCaisse);
+		this.add(this.nbCaisse);
 		
-		frame.add(new JLabel("Kilométrage min"));
+		this.add(new JLabel("Kilométrage min"));
 		this.kmMin = new JSpinner();
-		frame.add(this.kmMin);
+		this.add(this.kmMin);
 		
-		frame.add(new JLabel("Kilométrage max"));
+		this.add(new JLabel("Kilométrage max"));
 		this.kmMax = new JSpinner();
-		frame.add(this.kmMax);
+		this.add(this.kmMax);
 		
-		frame.add(new JLabel("Vitesse moyenne"));
+		this.add(new JLabel("Vitesse moyenne"));
 		this.vmoyVehicle = new JSpinner();
-		frame.add(this.vmoyVehicle);
+		this.add(this.vmoyVehicle);
 		
 		this.fermer = new JButton("Fermer");
-		frame.add(fermer);
+		fermer.addActionListener(controler);
+		this.add(fermer);
 		
 		this.simuler = new JButton("Simuler");
-		frame.add(simuler);
+		simuler.addActionListener(controler);
+		this.add(simuler);
 		
-		frame.setVisible(true);
+    	this.setVisible(true);
 	}
 
+	public FormAutoroute extractData() {
+		int nbVoiture = (int)this.nbVoiture.getValue();
+		int nbCaisse = (int)this.nbCaisse.getValue();
+		int kmMin = (int)this.kmMin.getValue();
+		int kmMax = (int)this.kmMax.getValue();
+		int vmoyVehicle = (int)this.vmoyVehicle.getValue();
+		
+		FormAutoroute form = new FormAutoroute(nbVoiture, nbCaisse, kmMin, kmMax, vmoyVehicle);
+		
+		return form;
+	}
+
+	public InitControler getControler() {
+		return controler;
+	}
+	
+	
 }
