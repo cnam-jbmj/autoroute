@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -11,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import app.Caisse;
+import app.Gare;
 import app.Voiture;
 import controler.MainControler;
 
@@ -19,6 +23,10 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private MainControler controler;
+	
+	private JPanel center;
+	
+	private Map<Caisse, JLabel> caisseInfo;
 	
 	private JList<Voiture> autoroute;
 	private JList<Voiture> fileAttente;
@@ -42,7 +50,10 @@ public class MainWindow extends JFrame {
 		
 		
 		//Center
-		//this.add(comp, BorderLayout.CENTER);
+		this.center = new JPanel();
+		center.setLayout(new FlowLayout());
+		this.add(center, BorderLayout.CENTER);
+		this.caisseInfo = new HashMap<>();
 		
 		//South
 		JPanel south = new JPanel();
@@ -67,6 +78,31 @@ public class MainWindow extends JFrame {
 		
 		this.setVisible(true);
 	}
+	
+	public void updateCaisse(Gare g) {
+		for(Caisse c : g) {
+			JPanel caisse = new JPanel();
+			GridLayout structure = new GridLayout(2,1);
+			caisse.setLayout(structure);
+			
+			JPanel info = new JPanel();
+			info.setLayout(new FlowLayout());
+			String numCaisse = String.valueOf(c.getNumCaisse());
+			info.add(new JLabel(numCaisse));
+			String imatVoiture = String.valueOf(c.getVoiture());
+			JLabel immat = new JLabel(imatVoiture);
+			info.add(immat);
+			
+			JPanel stat = new JPanel();
+			stat.setLayout(new FlowLayout());
+			
+			caisse.add(info);
+			caisse.add(stat);
+			
+			this.caisseInfo.put(c, immat);
+			this.center.add(caisse);
+		}		
+	}
 
 	public MainControler getControler() {
 		return controler;
@@ -82,5 +118,13 @@ public class MainWindow extends JFrame {
 
 	public JList<Voiture> getFileAttente() {
 		return fileAttente;
+	}
+
+	public Map<Caisse, JLabel> getCaisseInfo() {
+		return caisseInfo;
+	}
+
+	public void setCaisseInfo(Map<Caisse, JLabel> caisseInfo) {
+		this.caisseInfo = caisseInfo;
 	}	
 }

@@ -28,4 +28,14 @@ public class Caisse {
 	public void leave() {
 		this.voiture = null;
 	}
+
+	public int getNumCaisse() {
+		return numCaisse;
+	}
+
+	public Voiture getVoiture() {
+		return voiture;
+	}
+	
+	
 }

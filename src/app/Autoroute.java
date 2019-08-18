@@ -40,6 +40,7 @@ public class Autoroute {
     	
     	Observateur obs = new Observateur();
         Gare gare = new Gare(f.getNb_caisses());
+        main.updateCaisse(gare);
         
         //Lancer le timer
         Timer t = new Timer(true); //timer deamon
@@ -59,11 +60,13 @@ public class Autoroute {
         while(controleur.getVoituresPresente().size() != 0) {
         	main.getControler().updateListAutoroute(controleur.getVoituresPresente());
         	main.getControler().updateListFIleAttente(obs.getFileAttente());
+        	main.getControler().updateGare();
         }
         
         //Finalize
     	main.getControler().updateListAutoroute(controleur.getVoituresPresente());
     	main.getControler().updateListFIleAttente(obs.getFileAttente());
+    	main.getControler().updateGare();
         
         System.out.print("Fin Main");
 
