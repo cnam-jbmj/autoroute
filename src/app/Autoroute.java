@@ -58,7 +58,12 @@ public class Autoroute {
         controleur.start();
         while(controleur.getVoituresPresente().size() != 0) {
         	main.getControler().updateListAutoroute(controleur.getVoituresPresente());
+        	main.getControler().updateListFIleAttente(obs.getFileAttente());
         }
+        
+        //Finalize
+    	main.getControler().updateListAutoroute(controleur.getVoituresPresente());
+    	main.getControler().updateListFIleAttente(obs.getFileAttente());
         
         System.out.print("Fin Main");
 

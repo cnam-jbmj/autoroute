@@ -1,5 +1,8 @@
 package app;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.TimerTask;
 
 /*
@@ -8,19 +11,33 @@ import java.util.TimerTask;
  */
 
 public class Observateur extends TimerTask {
-    private int compteur = 0;
+    private List<Voiture> fileAttente;
     
-    public synchronized void increment(){
-        compteur ++;
+    public Observateur() {
+    	this.fileAttente = new ArrayList<>();
     }
     
-    public synchronized void decrement(){
-        compteur --;
+    public synchronized void increment(Voiture voiture) {
+    	this.fileAttente.add(voiture);
+    }
+
+    public synchronized void decrement(Voiture voiture) {
+    	for (Iterator<Voiture> iterator = fileAttente.iterator(); iterator.hasNext(); ) {
+    		Voiture value = iterator.next();
+    	    if (value.equals(voiture)) {
+    	        iterator.remove();
+    	    }
+    	}
     }
     
     @Override
     public void run() {
-        System.out.println(compteur);
+        System.out.println(fileAttente.size());
     }
+
+	public List<Voiture> getFileAttente() {
+		return fileAttente;
+	}
+    
     
 }

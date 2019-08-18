@@ -1,5 +1,6 @@
 package controler;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -15,22 +16,22 @@ public class MainControler {
 		this.vue = vue;
 	}
 	
-	public void updateListAutoroute(List<Voiture> ListOfVoiture) {
+	public void updateListAutoroute(List<Voiture> listOfVoiture) {
 		DefaultListModel<Voiture> lstOfVoiture = new DefaultListModel<>();
-		for(Voiture voiture : ListOfVoiture) {
-			lstOfVoiture.addElement(voiture);
-		}
-		
+    	for (Iterator<Voiture> iterator = listOfVoiture.iterator(); iterator.hasNext(); ) {
+    		Voiture value = iterator.next();
+    	    lstOfVoiture.addElement(value);
+    	}
 		
 		this.vue.getAutoroute().setModel(lstOfVoiture);
 	}
 	
-	public void updateListFIleAttente(List<Voiture> ListOfVoiture) {
+	public void updateListFIleAttente(List<Voiture> listOfVoiture) {
 		DefaultListModel<Voiture> lstOfVoiture = new DefaultListModel<>();
-		for(Voiture voiture : ListOfVoiture) {
-			lstOfVoiture.addElement(voiture);
-		}
-		
+    	for (Iterator<Voiture> iterator = listOfVoiture.iterator(); iterator.hasNext(); ) {
+    		Voiture value = iterator.next();
+    	    lstOfVoiture.addElement(value);
+    	}
 		
 		this.vue.getFileAttente().setModel(lstOfVoiture);
 	}

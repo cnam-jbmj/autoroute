@@ -3,6 +3,7 @@ package vue;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -48,13 +49,21 @@ public class MainWindow extends JFrame {
 		south.setLayout(new FlowLayout());
 		this.add(south , BorderLayout.SOUTH);
 		
+		JPanel autorouteIHM = new JPanel();
+		autorouteIHM.setLayout(new GridLayout(2,1));
+		autorouteIHM.add(new JLabel("En circulation"));
 		this.autoroute = new JList<>();
-		autoroute.setPreferredSize(new Dimension(150,200));
-		south.add(autoroute);
+		this.autoroute.setPreferredSize(new Dimension(150,200));
+		autorouteIHM.add(this.autoroute);
+		south.add(autorouteIHM);
 		
+		JPanel fileAttenteIHM = new JPanel();
+		fileAttenteIHM.setLayout(new GridLayout(2,1));
+		fileAttenteIHM.add(new JLabel("File Attente Caisse"));
 		this.fileAttente = new JList<>();
-		fileAttente.setPreferredSize(new Dimension(150,200));
-		south.add(fileAttente);
+		this.fileAttente.setPreferredSize(new Dimension(150,200));
+		fileAttenteIHM.add(this.fileAttente);
+		south.add(fileAttenteIHM);
 		
 		this.setVisible(true);
 	}

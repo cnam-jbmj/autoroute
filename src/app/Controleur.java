@@ -1,32 +1,43 @@
 package app;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Timer;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 public class Controleur extends Thread{
 
-    private int voitures_restantes;//coiture restant sur l'autoroute
+    private List<Voiture> voituresPresente;
     private Timer timer;
 
-    public Controleur(int voitures_restantes, Timer t) {
-        this.voitures_restantes = voitures_restantes;//initaliser le nombre de voiture restante
+    public Controleur(Timer t) {
+        this.voituresPresente = new ArrayList<>();
         timer = t;
     }
+    
+    public synchronized void increment(Voiture voiture) {
+    	this.voituresPresente.add(voiture);
+    }
 
-    public synchronized void decrement() {//quand une voiture sort, on décrémente le nombre de voiture restantes dans l'autoroute
-        voitures_restantes--;
+    public synchronized void decrement(Voiture voiture) {
+    	for (Iterator<Voiture> iterator = voituresPresente.iterator(); iterator.hasNext(); ) {
+    		Voiture value = iterator.next();
+    	    if (value.equals(voiture)) {
+    	        iterator.remove();
+    	    }
+    	}
+
     }
 
     @Override
     public void run() {
-        int i = 0;
-        while (voitures_restantes != 0){//on vérifie s'il reste encore des voiture dans l'autoroute
+        while (voituresPresente.size() != 0){
             System.out.print("");
         }
-        timer.cancel();//on arrête le timer
+        timer.cancel();
     }
+
+	public List<Voiture> getVoituresPresente() {
+		return voituresPresente;
+	}
 }
