@@ -54,12 +54,13 @@ public class Voiture extends Thread {
 	@Override
     public void run() {
         try {
+        	controleur.increment(this);
             barriere.countDown();//décrémenter le verrou  
             barriere.await();// attendre que toutes les autres voitures soient à ce même point
             entrer();
             rouler();
             sortir();
-            controleur.decrement();//signaler au controleur qu'on est sortie pour décrémenter le nombre de vpoitures restantes dans l'autoroute
+            controleur.decrement(this);//signaler au controleur qu'on est sortie pour décrémenter le nombre de vpoitures restantes dans l'autoroute
         } catch (InterruptedException ex) {
         }
     }
@@ -84,13 +85,19 @@ public class Voiture extends Thread {
 
     private void sortir() {
         try {
-            obs.increment(); //signaler à l'observateur qu'on attend une caisse
+            obs.increment(this); //signaler à l'observateur qu'on attend une caisse
             Caisse c = gare.take();//demander une caisse, dès qu'une caisse est libre elle sera affecter à cette voiture et elle sortira du pool de caisses libres
+            c.use(this);
             c.payer();//payer
             System.out.println("Voiture " + num + " : sortie");
+            c.leave();
             gare.put(c);//libérer la caisse en la remettant dans le pool de caisses libres
-            obs.decrement();//signaler à l'observateur qu'on est sorti de la file d'attente d'une caisse
+            obs.decrement(this);//signaler à l'observateur qu'on est sorti de la file d'attente d'une caisse
         } catch (InterruptedException ex) {
         }
+    }
+    
+    public String toString() {
+    	return num + " - " + immat;
     }
 }

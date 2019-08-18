@@ -1,13 +1,12 @@
 package app;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.CountDownLatch;
 
-import javax.swing.JDialog;
-
-import controler.InitControler;
 import vue.InitWindow;
+import vue.MainWindow;
 
 /*
  * To change this template, choose Tools | Templates
@@ -16,7 +15,7 @@ import vue.InitWindow;
 public class Autoroute {
 
     private static Autoroute route = null;
-    private static HashSet<Voiture> voitures = new HashSet<Voiture>();
+    private static Set<Voiture> voitures = new HashSet<Voiture>();
 
     private Autoroute() {
     }
@@ -34,6 +33,8 @@ public class Autoroute {
     }
     
     public void simuler2() {
+    	MainWindow main = new MainWindow();
+    	
     	InitWindow window = new InitWindow();
     	FormAutoroute f = window.getControler().getForm();
     	
@@ -44,8 +45,7 @@ public class Autoroute {
         Timer t = new Timer(true); //timer deamon
         t.schedule(obs, 1000, 1000);
         // Créer le controleur qui terminera le timer
-        Controleur controleur = new Controleur(f.getNb_voitures(), t);
-        controleur.start();
+        Controleur controleur = new Controleur(t);
         
         //création de la barrière de départ
         CountDownLatch barriere = new CountDownLatch(f.getNb_voitures());
@@ -55,10 +55,16 @@ public class Autoroute {
             v.start();
         }
         
+        controleur.start();
+        while(controleur.getVoituresPresente().size() != 0) {
+        	main.getControler().updateListAutoroute(controleur.getVoituresPresente());
+        }
+        
         System.out.print("Fin Main");
 
     }
 
+    @Deprecated
     public void simuler() {
         VueSaisie vue1 = new VueSaisie();
         FormAutoroute f = vue1.lire();
@@ -69,7 +75,7 @@ public class Autoroute {
         Timer t = new Timer(true); //timer deamon
         t.schedule(obs, 1000, 1000);
         // Créer le controleur qui terminera le timer
-        Controleur controleur = new Controleur(f.getNb_voitures(), t);
+        Controleur controleur = new Controleur(t);
         controleur.start();
         
         //création de la barrière de départ

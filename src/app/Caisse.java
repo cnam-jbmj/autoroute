@@ -2,13 +2,15 @@ package app;
 
 import java.util.Random;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 public class Caisse {
+	
+	private int numCaisse;
+	private Voiture voiture;
+	
+	public Caisse(int numCaisse) {
+		this.numCaisse = numCaisse;
+	}
+	
     public void payer(){
         Random r = new Random();
         int n = 1000 + r.nextInt(10000);
@@ -18,4 +20,12 @@ public class Caisse {
             
         }
     }
+
+	public void use(Voiture voiture) {
+		this.voiture = voiture;
+	}
+	
+	public void leave() {
+		this.voiture = null;
+	}
 }
