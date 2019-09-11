@@ -1,14 +1,18 @@
 package vue;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -97,32 +101,53 @@ public class MainWindow extends JFrame {
 			Map <String, JLabel> display = new HashMap<>();
 			
 			JPanel caisse = new JPanel();
-			caisse.setMaximumSize(new Dimension(250,100));
-			caisse.setLayout(new GridLayout(2,1));
+			caisse.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			caisse.setSize(new Dimension(400,100));
+			GridLayout grid = new GridLayout(5,2);
+			grid.setHgap(2);
+			caisse.setLayout(grid);
 			
-			JPanel info = new JPanel();
-			info.setLayout(new FlowLayout());
 			String numCaisse = String.valueOf(c.getNumCaisse());
-			info.add(new JLabel(numCaisse));
+			JLabel labelCaisse = new JLabel(numCaisse);
+			labelCaisse.setBackground(Color.decode("#ffff99"));
+			labelCaisse.setOpaque(true);
+			labelCaisse.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			caisse.add(labelCaisse);
+			
 			String imatVoiture = String.valueOf(c.getVoiture());
 			JLabel immat = new JLabel(imatVoiture);
+			Font font = new Font("Courier", Font.BOLD,16);
+			immat.setFont(font);
+			immat.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			display.put("immat", immat);
-			info.add(immat);
+			caisse.add(immat);
 			
-			JPanel stat = new JPanel();
-			stat.setLayout(new BoxLayout(stat, BoxLayout.X_AXIS));
+			JLabel labelTT = new JLabel("<html>Temps <br>cumulé</html>");
+			labelTT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			caisse.add(labelTT);
 			JLabel tempsTot = new JLabel("0 s");
+			tempsTot.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			display.put("tempsTot", tempsTot);
-			info.add(tempsTot);
-			JLabel tempsMoy = new JLabel("0 s");
-			display.put("tempsMoy", tempsMoy);
-			info.add(tempsMoy);
-			JLabel passage = new JLabel("0 vehicules");
-			display.put("passage", passage);
-			info.add(passage);
+			caisse.add(tempsTot);
 			
-			caisse.add(info);
-			caisse.add(stat);
+			JLabel labelTM = new JLabel("<html>Temps <br>moyen</html>");
+			labelTM.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			caisse.add(labelTM);
+			JLabel tempsMoy = new JLabel("0 s");
+			tempsMoy.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			display.put("tempsMoy", tempsMoy);
+			caisse.add(tempsMoy);
+			
+			JLabel labelPassage = new JLabel("Vehicules");
+			labelPassage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			caisse.add(labelPassage);
+			JLabel passage = new JLabel("0");
+			passage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			display.put("passage", passage);
+			caisse.add(passage);
+			
+			JButton stats = new JButton("Statistiques");
+			caisse.add(stats);
 			
 			this.caisseInfo.put(c, display);
 			this.center.add(caisse);

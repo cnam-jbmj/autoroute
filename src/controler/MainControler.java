@@ -57,7 +57,7 @@ public class MainControler {
 						data.getValue().setText(tempsMoy);
 					}
 				} else if(data.getKey().equals("passage")) {
-					String passage = String.valueOf(caisse.getKey().getPassage() + " vehicules");
+					String passage = String.valueOf(caisse.getKey().getPassage());
 					data.getValue().setText(passage);
 				}
 			}
