@@ -6,9 +6,13 @@ public class Caisse {
 	
 	private int numCaisse;
 	private Voiture voiture;
+	private int passage;
+	private int attenteTotale;
 	
 	public Caisse(int numCaisse) {
 		this.numCaisse = numCaisse;
+		this.attenteTotale = 0;
+		this.passage = 0;
 	}
 	
     public void payer(){
@@ -19,6 +23,8 @@ public class Caisse {
         } catch (InterruptedException ex) {
             
         }
+        this.attenteTotale += n/1000;
+        this.passage++;
     }
 
 	public void use(Voiture voiture) {
@@ -36,6 +42,12 @@ public class Caisse {
 	public Voiture getVoiture() {
 		return voiture;
 	}
-	
-	
+
+	public int getAttenteTotale() {
+		return attenteTotale;
+	}
+
+	public int getPassage() {
+		return passage;
+	}
 }
