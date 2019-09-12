@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 
 import app.Caisse;
 import app.Voiture;
+import helper.JFreeChartHelper;
 import vue.MainWindow;
 
 public class MainControler {

@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import app.Caisse;
 import app.Gare;
 import app.Voiture;
+import controler.ButtonControler;
 import controler.MainControler;
 
 public class MainWindow extends JFrame {
@@ -147,6 +148,7 @@ public class MainWindow extends JFrame {
 			caisse.add(passage);
 			
 			JButton stats = new JButton("Statistiques");
+			stats.addActionListener(new ButtonControler(c));
 			caisse.add(stats);
 			
 			this.caisseInfo.put(c, display);
